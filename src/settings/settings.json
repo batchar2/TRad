@@ -1,0 +1,60 @@
+[
+	{
+		"genre": "Rock",
+		"stations": 
+		[
+			{
+				"name": "station 1",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 2",
+				"m3u8": "station1.m3u8"
+			}
+		]
+	},
+	{
+		"genre": "Pop",
+		"stations": 
+		[
+			{
+				"name": "station 3",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 4",
+				"m3u8": "station1.m3u8"
+			}
+		]
+	},
+	{
+		"genre": "Trance",
+		"stations":
+		[
+			{
+				"name": "station 5",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 6",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 7",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 8",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 9",
+				"m3u8": "station1.m3u8"
+			},
+			{
+				"name": "station 10",
+				"m3u8": "station1.m3u8"
+			}
+		]
+	}
+]
