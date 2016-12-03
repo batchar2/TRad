@@ -7,6 +7,9 @@ import json
 from PyQt4 import QtGui, QtCore
 
 
+#
+# gst-launch-1.0 -v playbin uri=http://ber.radiostream.de:36795
+
 
 class ParseConfigFile():
     

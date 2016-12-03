@@ -4,12 +4,12 @@
 		"stations": 
 		[
 			{
-				"name": "station 1",
-				"m3u8": "station1.m3u8"
+				"name": "playlist/80x.m3u",
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 2",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			}
 		]
 	},
@@ -19,11 +19,11 @@
 		[
 			{
 				"name": "station 3",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 4",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			}
 		]
 	},
@@ -33,27 +33,27 @@
 		[
 			{
 				"name": "station 5",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 6",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 7",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 8",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 9",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			},
 			{
 				"name": "station 10",
-				"m3u8": "station1.m3u8"
+				"m3u": "playlist/80x.m3u"
 			}
 		]
 	}
