@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 
+
+
+import thread
+import sys
+import gobject
 import pygst
 
-pygst.require("0.10")
+#pygst.require("0.10")
+
+pygst.require("1.0")
 
 import gst
 
@@ -10,7 +17,10 @@ import gst
 # gst-launch-1.0 souphttpsrc location=http://ber.radiostream.de:36795 ! decodebin ! autoaudiosink
 
 class Player:
-	def __init__(self):
+
+    _station = None
+
+    def __init__(self):
 
         gobject.threads_init()
         def start():
@@ -22,19 +32,24 @@ class Player:
         
         self.pipe = gst.Pipeline(name="trad")
 
-        self.src = gst.element_factory_make("souphttpsrc", "src")
+        self.src = gst.element_factory_make("souphttpsrc", "souphttpsrc")
         self.decode_bin = gst.element_factory_make("decodebin", "decodebin")
         self.autoaudiosink = gst.element_factory_make("autoaudiosink", "autoaudiosink")
 
-		self.pipe.add(src)
-		self.pipe.add(decode_bin)
-		self.pipe.add(autoaudiosink)
+        self.pipe.add(src)
+        self.pipe.add(decode_bin)
+        self.pipe.add(autoaudiosink)
+
+
+        gst.element_link_many(src, decode_bin, autoaudiosink)
+
+        #equalizer.set_property('band2', -24.0)
 
         #self.player = gst.element_factory_make("playbin", "player")
         #self.is_eos = False
         #self.is_error = False
 
-        self.bus = self.player.get_bus()
+        self.bus = self.pipe.get_bus()
         self.bus.enable_sync_message_emission()
 
 
@@ -46,6 +61,37 @@ class Player:
 
         self.pause()
 
+
+    def add_station(self, station):
+        self._station = station
+        self.pipe.set_state(gst.STATE_NULL)
+        self.src.set_property("location", station['uri'])
+
+    def play(self):
+        if self._station is not None:
+            self.pipe.set_state(gst.STATE_PLAYING)
+            self.is_eos = False
+            self.is_error = False
+
+    def stop(self):
+        if self._station is not None:
+            self.pipe.set_state(gst.STATE_PAUSED)
+
+
+    def _handle_message(self, bus, msg):
+        if msg.type == gst.MESSAGE_EOS:
+            self.is_eos = True
+            self.player.set_state(gst.STATE_NULL)
+
+        elif msg.type == gst.MESSAGE_ERROR:
+            self.is_error = False
+            self.player.set_state(gst.STATE_NULL)
+            (err, debug) = msg.parse_error()
+            
+            sys.stderr.write("Error: %s  | %s" % (err, debug))
+
+
+    """
     # добавляю файл на воспроизведение
     def add_track(self, url):
         self.__file = url
@@ -71,7 +117,7 @@ class Player:
         return self.player.get_property('volume')
 
     def _get_state(self):
-        """Returns the current state flag of the playbin."""
+        #Returns the current state flag of the playbin.
         return self.player.get_state()[1]
 
 
@@ -114,4 +160,6 @@ class Player:
         fmt = gst.Format(gst.FORMAT_TIME)
         ns = position * 10**9 # convert to nanoseconds
 
-		self.player.seek_simple(fmt, gst.SEEK_FLAG_FLUSH, ns)
+        self.player.seek_simple(fmt, gst.SEEK_FLAG_FLUSH, ns)
+
+    """

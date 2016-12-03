@@ -7,6 +7,8 @@ import json
 from PyQt4 import QtGui, QtCore
 
 
+from player import Player
+
 #
 # gst-launch-1.0 -v playbin uri=http://ber.radiostream.de:36795
 
