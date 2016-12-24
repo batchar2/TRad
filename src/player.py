@@ -1,19 +1,29 @@
 # -*- coding: utf-8 -*-
 
 
-
 import thread
 import sys
 import gobject
 import pygst
 
-#pygst.require("0.10")
+#pygst.require("1.0")
+#import gi
+#gi.require_version('Gst', '1.0')
 
-pygst.require("1.0")
+pygst.require("0.10")
 
 import gst
 
+"""
+import gi
+gi.require_version('Gst', '1.0')
+import thread
+import sys
+from gi.repository import GObject
+import pygst
 
+import gst
+"""
 # gst-launch-1.0 souphttpsrc location=http://ber.radiostream.de:36795 ! decodebin ! autoaudiosink
 
 class Player:
@@ -22,9 +32,9 @@ class Player:
 
     def __init__(self):
 
-        gobject.threads_init()
+        GObject.threads_init()
         def start():
-            loop = gobject.MainLoop()
+            loop = GObject.MainLoop()
             loop.run()
         thread.start_new_thread(start, ())
 
@@ -32,24 +42,23 @@ class Player:
         
         self.pipe = gst.Pipeline(name="trad")
 
-        self.src = gst.element_factory_make("souphttpsrc", "souphttpsrc")
-        self.decode_bin = gst.element_factory_make("decodebin", "decodebin")
-        self.autoaudiosink = gst.element_factory_make("autoaudiosink", "autoaudiosink")
+        #self.src = gst.element_factory_make("souphttpsrc", "souphttpsrc")
+        #self.decode_bin = gst.element_factory_make("decodebin", "decodebin")
+        #self.autoaudiosink = gst.element_factory_make("autoaudiosink", "autoaudiosink")
 
-        self.pipe.add(src)
-        self.pipe.add(decode_bin)
-        self.pipe.add(autoaudiosink)
-
+        #self.pipe.add(src)
+        #self.pipe.add(decode_bin)
+        #self.pipe.add(autoaudiosink)
+        self.player = gst.element_factory_make("playbin", "player")
 
         gst.element_link_many(src, decode_bin, autoaudiosink)
 
         #equalizer.set_property('band2', -24.0)
-
         #self.player = gst.element_factory_make("playbin", "player")
         #self.is_eos = False
         #self.is_error = False
 
-        self.bus = self.pipe.get_bus()
+        self.bus = self.player.get_bus()
         self.bus.enable_sync_message_emission()
 
 
@@ -64,18 +73,18 @@ class Player:
 
     def add_station(self, station):
         self._station = station
-        self.pipe.set_state(gst.STATE_NULL)
+        self.player.set_state(gst.STATE_NULL)
         self.src.set_property("location", station['uri'])
 
     def play(self):
         if self._station is not None:
-            self.pipe.set_state(gst.STATE_PLAYING)
+            self.player.set_state(gst.STATE_PLAYING)
             self.is_eos = False
             self.is_error = False
 
     def stop(self):
         if self._station is not None:
-            self.pipe.set_state(gst.STATE_PAUSED)
+            self.player.set_state(gst.STATE_PAUSED)
 
 
     def _handle_message(self, bus, msg):

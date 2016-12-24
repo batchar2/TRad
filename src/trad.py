@@ -7,7 +7,7 @@ import json
 from PyQt4 import QtGui, QtCore
 
 
-from player import Player
+#from player import Player
 
 #
 # gst-launch-1.0 -v playbin uri=http://ber.radiostream.de:36795
@@ -54,6 +54,8 @@ class MenuApp(QtGui.QMenu):
         
         super(MenuApp, self).__init__("TrayRadio", parent)
 
+        
+        #self._player = Player();
         icon = QtGui.QIcon.fromTheme("edit-copy")
         
 
@@ -69,7 +71,6 @@ class MenuApp(QtGui.QMenu):
                 genre_menu.addAction(action_menu_item)
 
             self.addMenu(genre_menu)
-   
         self.addSeparator()
 
         action_settings = QtGui.QAction(u'Настройки', self)
@@ -83,21 +84,19 @@ class MenuApp(QtGui.QMenu):
         action_about = QtGui.QAction(u'О программе', self)
         self.addAction(action_about)
 
-
         action_exit = QtGui.QAction(u'Выход', self)
         self.addAction(action_exit)
         self.connect(action_exit, QtCore.SIGNAL('triggered()'), self.signal_close_app)
-        
 
     def _change_station(self):
         name = self._active_station['name']
         self._station_play_control.setText(name)
 
-
     def _set_station(self, station):
         self._active_station = station
-        self._change_station()
+        self._player.add_station(station)
 
+        self._change_station()
 
     def signal_close_app(self):
         QtGui.QApplication.quit()
@@ -120,8 +119,6 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             x, y = pos.x() - self.menu.width()/2, pos.y() - self.menu.height()
             self.menu.move(x, y)
             self.menu.show()
-
-
 
 
 if __name__ == '__main__':
