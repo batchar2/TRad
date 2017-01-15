@@ -9,25 +9,69 @@
 				"uri": "http://ber.radiostream.de:36795"
 			},
 			{
-				"name": "station 2",
+				"name": "Classic Rock Florida - SHE Radio",
+				"m3u": "playlist/80x.m3u",
+				"uri": "http://ber.radiostream.de:36795"
+			},
+			{
+				"name": "playlist/80x.m3u",
+				"m3u": "playlist/80x.m3u",
+				"uri": "http://ber.radiostream.de:36795"
+			},
+			{
+				"name": "playlist/80x.m3u",
+				"m3u": "playlist/80x.m3u",
+				"uri": "http://ber.radiostream.de:36795"
+			},
+			{
+				"name": "playlist/80x.m3u",
+				"m3u": "playlist/80x.m3u",
+				"uri": "http://ber.radiostream.de:36795"
+			},
+			{
+				"name": "playlist/80x.m3u",
+				"m3u": "playlist/80x.m3u",
+				"uri": "http://ber.radiostream.de:36795"
+			},
+			{
+				"name": "playlist/80x.m3u",
+				"m3u": "playlist/80x.m3u",
+				"uri": "http://ber.radiostream.de:36795"
+			},
+			{
+				"name": "playlist/80x.m3u",
 				"m3u": "playlist/80x.m3u",
 				"uri": "http://ber.radiostream.de:36795"
 			}
 		]
 	},
 	{
-		"genre": "Pop",
+		"genre": "Drum And Bass",
 		"stations": 
 		[
 			{
-				"name": "station 3",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Dance UK Radio danceradiouk",
+				"uri": "http://uk2.internet-radio.com:8024/"
 			},
 			{
-				"name": "station 4",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Undergroundfm",
+				"uri": "http://uk1.internet-radio.com:8093/"
+			},
+			{
+				"name": "PARTY VIBE RADIO : DRUM AND BASS + JUNGLE + BREAKBEAT",
+				"uri": "http://www.partyviberadio.com:8004/listen.pls?sid=1"
+			},
+			{
+				"name": "Esvive Radio",
+				"uri": "http://uk2.internet-radio.com:8277/"
+			},
+			{
+				"name": "Future Pressure Radio",
+				"uri": "http://uk3.internet-radio.com:8108/"
+			},
+			{
+				"name": "PARTY VIBE RADIO : BREAKBEAT + HIP HOP + ELECTRONIC",
+				"uri": "http://www.partyviberadio.com:8032/listen.pls?sid=2"
 			}
 		]
 	},
