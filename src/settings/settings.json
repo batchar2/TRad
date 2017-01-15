@@ -5,43 +5,35 @@
 		[
 			{
 				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
 				"uri": "http://ber.radiostream.de:36795"
 			},
 			{
 				"name": "Classic Rock Florida - SHE Radio",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"uri": "http://us1.internet-radio.com:8105/"
 			},
 			{
-				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Classic Rock Miami HD",
+				"uri": "http://us2.internet-radio.com:8191/"
 			},
 			{
-				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Box UK Radio danceradiouk",
+				"uri": "http://uk2.internet-radio.com:8145/"
 			},
 			{
-				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Classic Rock Planet HD Plus",
+				"uri": "http://uk6.internet-radio.com:8022/"
 			},
 			{
-				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Radio Bloodstream",
+				"uri": "http://uk1.internet-radio.com:8294/live"
 			},
 			{
-				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Magic 80s Florida",
+				"uri": "http://airspectrum.cdnstream1.com:8018/1606_192"
 			},
 			{
-				"name": "playlist/80x.m3u",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Classic Rock New York",
+				"uri": "http://us2.internet-radio.com:8351/"
 			}
 		]
 	},
@@ -80,34 +72,68 @@
 		"stations":
 		[
 			{
-				"name": "station 5",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "PulseEDM Dance Music Radio",
+				"uri": "http://pulseedm.cdnstream1.com:8124/1373_128"
 			},
 			{
-				"name": "station 6",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "GoHamRadio- Do you even GoHam bro?",
+				"uri": "http://uk6.internet-radio.com:8007/"
 			},
 			{
-				"name": "station 7",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Dance Attack FM - The Best EDM",
+				"uri": "http://uk6.internet-radio.com:8152/live"
 			},
 			{
-				"name": "station 8",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Dance UK Radio danceradiouk",
+				"uri": "http://uk2.internet-radio.com:8024/"
 			},
 			{
-				"name": "station 9",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "CO9",
+				"uri": "http://uk3.internet-radio.com:10214/"
 			},
 			{
-				"name": "station 10",
-				"m3u": "playlist/80x.m3u",
-				"uri": "http://ber.radiostream.de:36795"
+				"name": "Radio Te Amo",
+				"uri": "http://uk1.internet-radio.com:8097/"
+			}
+		]
+	},
+	{
+		"genre": "Eurodance",
+		"stations":
+		[
+			{
+				"name": "NERadio Sweden - Best of Techno & Trance | www.neradio.se",
+				"uri": "http://5.39.90.122:80/"
+			},
+			{
+				"name": "Radio Crisami Romania",
+				"uri": "http://crisami.zapto.org:8130/"
+			},
+			{
+				"name": "Eurodance 90",
+				"uri": "http://172.82.138.34:16470/listen.pls?sid=1"
+			},
+			{
+				"name": "NERadio Nonstop | The Best of Techno and Trance - www.neradio.fm",
+				"uri": "http://www4.no-ip.org:443/"
+			},
+			{
+				"name": "Radiodancing.com - Latin NRG",
+				"uri": "http://67.212.179.138:7030/"
+			},
+			{
+				"name": "Radio EuroStyles",
+				"uri": "http://216.104.43.226:8704/"
+			}
+		]
+	},
+	{
+		"genre": "Easy Listening",
+		"stations":
+		[
+			{
+				"name": "Easy Hits Florida - Love Radio",
+				"uri": "http://us2.internet-radio.com:8181/"
 			}
 		]
 	}

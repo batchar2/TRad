@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import json
-
+import time
+import urllib2
 
 from PyQt4 import QtGui, QtCore
 
@@ -46,19 +47,61 @@ class ActionMenu(QtGui.QAction):
 
 
 
+class UpdateTrackName(QtCore.QThread):
+    """Класс обновляет название выбранной песни
+    """
+    def __init__(self, parent=None):
+        super(UpdateTrackName, self).__init__(parent)
+        self._parent = parent
+
+    def run(self):
+        while True:
+            time.sleep(1)
+            title = None
+            if self._parent.active_station is not None:
+                stream_url = self._parent.active_station['uri']#sys.argv[1] or 'http://ber.radiostream.de:36795'
+
+                #print('URL', stream_url)
+                request = urllib2.Request(stream_url)
+                try:
+                    request.add_header('Icy-MetaData', 1)
+                    response = urllib2.urlopen(request)
+                    icy_metaint_header = response.headers.get('icy-metaint')
+                    if icy_metaint_header is not None:
+                        metaint = int(icy_metaint_header)
+                        read_buffer = metaint+255
+                        content = response.read(read_buffer)
+                        title = content[metaint:].split("'")[1]
+                        #print title
+                        
+                    #print response
+                except:
+                    print 'Error'
+            self._parent.set_title_track(title)
+
+
 class MenuApp(QtGui.QMenu):
     
     _active_station = None
+    _is_playning = False
+
 
     def __init__(self, settings = [], parent=None):
         
         super(MenuApp, self).__init__("TrayRadio", parent)
 
         self._player = Player();
-        icon = QtGui.QIcon.fromTheme("edit-copy")
         
+        # Название станции
         self._station_play_control = QtGui.QAction(u'Не выбранно', self)
+        self.connect(self._station_play_control, QtCore.SIGNAL('triggered()'), self._play_and_stop)
         self.addAction(self._station_play_control)
+        self.addSeparator()
+
+        # Название трека
+        self._track_name = QtGui.QAction(u'No name', self)
+        self._track_name.setEnabled(False)
+        self.addAction(self._track_name)
         self.addSeparator()
 
         for s in settings:
@@ -87,11 +130,43 @@ class MenuApp(QtGui.QMenu):
         self.connect(action_exit, QtCore.SIGNAL('triggered()'), self.signal_close_app)
 
 
+        self.thread_updater_track_name = UpdateTrackName(self)
+        self.thread_updater_track_name.start()
+
+    def set_title_track(self, title):
+        text = "Playing: {0}".format(title or 'No name')
+        self._track_name.setText(text)
+
+    @property
+    def active_station(self):
+        return self._active_station
+
     def _change_station(self):
         name = self._active_station['name']
-        self._station_play_control.setText(name)
+        
+        if self._is_playning:
+            title = 'Turn on'
+        else:
+            title = 'Turn off'
+
+        text = "{0} {1}".format(title, name)
+        self._station_play_control.setText(text)
+
+
+    def _play_and_stop(self):
+        self._is_playning = not self._is_playning
+
+        if self._active_station is not None:
+            if self._is_playning:
+                self._player.stop()
+            else:
+                self._player.play()
+
+        self._change_station()
+
 
     def _set_station(self, station):
+        self._is_playning = True
         self._active_station = station
         self._player.add_station(station)
         self._player.play()
