@@ -1,0 +1,3 @@
+#!/bin/bash
+
+#dh_install stations/ /usr/share/trad/
