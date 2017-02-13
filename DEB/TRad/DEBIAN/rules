@@ -1,0 +1,3 @@
+#!/bin/bash
+
+install -D -m 644 stations/stations.json /usr/share/trad/

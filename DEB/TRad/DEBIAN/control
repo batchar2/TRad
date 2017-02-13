@@ -1,0 +1,10 @@
+Package: trad
+Version: 0.2
+Provides: trad
+Maintainer: skokov.stanislav@yandex.ru
+Architecture: all
+Section: sound
+Description: test-packet
+Installed-Size: 3
+Priority: optional
+#Depends: dpkg, python, python-gi, python3-gi, python-gst-1.0, gstreamer1.0-alsa, gstreamer1.0-nice, gstream er1.0-plugins-base, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-good
