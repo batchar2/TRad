@@ -7,6 +7,8 @@
 ![alt tag](https://pp.vk.me/c638520/v638520865/20aef/KrWoBf_ua88.jpg)
 
 
+Плеер написан по мотивам [статьи](http://diym.ru/post/python-i-gstreamer-delaem-audiopleer/), где разобран пример работы с gstreamer
+
 Зависимости: python 2.7, PyQt4, gstreamer-1.0
 
 Для того, чтобы установить необходимо собрать deb-пакет.
