@@ -18,9 +18,8 @@ from gi.repository import GObject, Gst#, Gtk
 from PyQt4 import QtGui, QtCore
 
 # Initializing threads used by the Gst various elements
-GObject.threads_init()
 #Initializes the GStreamer library, setting up internal path lists, registering built-in elements, and loading standard plugins.
-Gst.init(None)
+#Gst.init(None)
 
 
 
@@ -28,51 +27,38 @@ class Player:
     """
     Реализуется плеер на gstreamer. 
     """
-    _station = None
-
     def __init__(self):
-        """
-        Составляется цепочка компонентов, навешиваются калбеки
-        """
         def start():
             """
             В отдельном потоке запускаю mainloop Gstreamer'а
             """
-            self.mainloop = GObject.MainLoop()
-            self.mainloop.run()
+            self._mainloop = GObject.MainLoop()
+            self._mainloop.run()
+
+        Gst.init()
+        GObject.threads_init()
+            
         thread.start_new_thread(start, ())
 
-        self.pipeline = Gst.Pipeline.new("mypipeline")
+        self._play_bin = Gst.ElementFactory.make('playbin', 'player')
+        if self._play_bin is not None:
+            self._play_bin.set_property('volume', 1.0)
+            self._play_bin.set_state(Gst.State.PAUSED)
+        else:
+            print("Ошибка! Плагин gstreamer playbin не найден!")
 
-        self.souphttpsrc = Gst.ElementFactory.make("souphttpsrc", "souphttpsrc")
-        self.pipeline.add(self.souphttpsrc)
-        
-        self.decode = Gst.ElementFactory.make("decodebin", "decode")
-        self.pipeline.add(self.decode)
-        self.decode.connect("pad-added", self._decode_src_created) 
-        
-        self.sink = Gst.ElementFactory.make("autoaudiosink", "autoaudiosink")
-        self.pipeline.add(self.sink)
-
-        self.souphttpsrc.link(self.decode)
-    
-    def _decode_src_created(self, element, pad):
-        pad.link(self.sink.get_static_pad("sink"))    
-
-        
     def play(self):
-        self.pipeline.set_state(Gst.State.PLAYING)
+        if self._play_bin is not None:
+            self._play_bin.set_state(Gst.State.PLAYING)
 
-
-    def add_station(self, station):
-        self._station = station
-        self.pipeline.set_state(Gst.State.NULL)
-        self.souphttpsrc.set_property("location", station['uri'])
-        self.pipeline.set_state(Gst.State.PLAYING)
-
+    def set_station(self, uri):
+        if self._play_bin is not None:
+            self._play_bin.set_property('uri', uri) 
+        
     def stop(self):
-        self.pipeline.set_state(Gst.State.PAUSED)
-
+        print("STOP")
+        if self._play_bin is not None:
+            self._play_bin.set_state(Gst.State.PAUSED)        
 
 
 class ActionMenu(QtGui.QAction):
@@ -151,7 +137,7 @@ class MenuApp(QtGui.QMenu):
         self.addSeparator()
 
         # Название трека
-        self._track_name = QtGui.QAction(u'No name', self)
+        self._track_name = QtGui.QAction(u'Нет имени', self)
         self._track_name.setEnabled(False)
         self.addAction(self._track_name)
         self.addSeparator()
@@ -167,14 +153,17 @@ class MenuApp(QtGui.QMenu):
         self.addSeparator()
 
         action_settings = QtGui.QAction(u'Настройки', self)
+        action_settings.setEnabled(False)
         self.addAction(action_settings)
 
         action_record = QtGui.QAction(u'Запись трансляции', self)
+        action_record.setEnabled(False)
         self.addAction(action_record)
 
         self.addSeparator()
         
         action_about = QtGui.QAction(u'О программе', self)
+        action_about.setEnabled(False)
         self.addAction(action_about)
 
         action_exit = QtGui.QAction(u'Выход', self)
@@ -183,7 +172,7 @@ class MenuApp(QtGui.QMenu):
 
 
     def set_title_track(self, title):
-        text = "Playing: {0}".format(title or 'No name')
+        text = u'Воспроизводится: {0}'.format(title or u'Нет имени')
         self._track_name.setText(text)
 
 
@@ -198,10 +187,10 @@ class MenuApp(QtGui.QMenu):
         """
         name = self._active_station['name']
         if self._is_playning:
-            title = 'Turn on'
+            title = u'Остановить'
         else:
-            title = 'Turn off'
-        text = "{0} {1}".format(title, name)
+            title = u'Запустить'
+        text = u"{0} {1}".format(title, name)
         self._station_play_control.setText(text)
 
 
@@ -209,13 +198,12 @@ class MenuApp(QtGui.QMenu):
         """
         Останавливаем или запускаем  воспроизведение
         """
-        self._is_playning = not self._is_playning
-
         if self._active_station is not None:
             if self._is_playning:
                 self._player.stop()
             else:
                 self._player.play()
+            self._is_playning = not self._is_playning
 
         self._change_station()
 
@@ -226,7 +214,8 @@ class MenuApp(QtGui.QMenu):
         """
         self._is_playning = True
         self._active_station = station
-        self._player.add_station(station)
+        self._player.stop()
+        self._player.set_station(station['uri'])
         self._player.play()
         self._change_station()
 
