@@ -1,5 +1,15 @@
 [
 	{
+		"genre": "Российское",
+		"stations":
+		[
+			{
+				"name": "Радио ЭНЕРДЖИ",
+				"uri": "'http://ic2.101.ru:8000/v1_1"
+			}
+		]
+	},
+	{
 		"genre": "Rock",
 		"stations": 
 		[

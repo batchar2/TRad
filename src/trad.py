@@ -24,8 +24,6 @@ Gst.init(None)
 
 
 
-
-
 class Player:
     """
     Реализуется плеер на gstreamer. 
@@ -85,10 +83,8 @@ class ActionMenu(QtGui.QAction):
 
         self.triggered.connect(self._set_station)
 
-
     def __str__(self):
         return _data['name']
-
 
     def _set_station(self):
         self.emit(QtCore.SIGNAL('set_station'), self._data)
@@ -97,9 +93,8 @@ class ActionMenu(QtGui.QAction):
 
 class UpdateTrackName(QtCore.QThread):
     """
-    Класс обновляет название выбранной песни.
+    Класс обновляет название песни на станции.
     """
-
     def __init__(self, parent=None):
         super(UpdateTrackName, self).__init__(parent)
         self._parent = parent
@@ -133,8 +128,7 @@ class UpdateTrackName(QtCore.QThread):
             self._parent.set_title_track(title)
 
 
-class MenuApp(QtGui.QMenu):
-    
+class MenuApp(QtGui.QMenu):    
     _active_station = None
     _is_playning = False
 
@@ -150,9 +144,6 @@ class MenuApp(QtGui.QMenu):
 
 
     def _add_menu_items(self):
-        """
-        Реализует меню
-        """
         # Название станции
         self._station_play_control = QtGui.QAction(u'Не выбранно', self)
         self.connect(self._station_play_control, QtCore.SIGNAL('triggered()'), self._play_and_stop)
@@ -247,26 +238,14 @@ class MenuApp(QtGui.QMenu):
         QtGui.QApplication.quit()
         
 
-
-class SystemTrayIcon(QtGui.QSystemTrayIcon):
-    """
-    Реализует меню и управляет размещением на экране
-    """
+class Tray(QtGui.QSystemTrayIcon):
     def __init__(self, settings, icon_path, parent=None):
-        super(SystemTrayIcon, self).__init__(parent)
+        super(Tray, self).__init__(parent)
         self.setIcon(QtGui.QIcon(icon_path))
         
-        self.menu = MenuApp(settings)
-
-        self.activated.connect(self.click_trap)
-
-
-    def click_trap(self, value):
-        if value == self.Trigger: #left click!
-            pos = self.geometry().topRight()
-            x, y = pos.x() - self.menu.width()/2, pos.y() - self.menu.height()
-            self.menu.move(x, y)
-            self.menu.show()
+        self._menu = MenuApp(settings)
+        self.setContextMenu(self._menu)
+        #self.activated.connect(self.click_trap)
 
 
 
@@ -308,6 +287,6 @@ if __name__ == '__main__':
     icon_path = os.path.join(DEFAULT_SETTINGS_DIR, ICON_FILE)
 
     app = QtGui.QApplication([])
-    tray = SystemTrayIcon(settings, icon_path)
+    tray = Tray(settings, icon_path)
     tray.show()
     app.exec_()
