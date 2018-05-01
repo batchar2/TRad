@@ -14,14 +14,7 @@ import gi
 gi.require_version('Gst', '1.0')
 from gi.repository import GObject, Gst#, Gtk
 
-
 from PyQt4 import QtGui, QtCore
-
-# Initializing threads used by the Gst various elements
-#Initializes the GStreamer library, setting up internal path lists, registering built-in elements, and loading standard plugins.
-#Gst.init(None)
-
-
 
 class Player:
     """
@@ -40,25 +33,25 @@ class Player:
             
         thread.start_new_thread(start, ())
 
-        self._play_bin = Gst.ElementFactory.make('playbin', 'player')
-        if self._play_bin is not None:
-            self._play_bin.set_property('volume', 1.0)
-            self._play_bin.set_state(Gst.State.PAUSED)
+        self._playbin = Gst.ElementFactory.make('playbin', 'player')
+        if self._playbin is not None:
+            self._playbin.set_property('volume', 1.0)
+            self._playbin.set_state(Gst.State.PAUSED)
         else:
             print("Ошибка! Плагин gstreamer playbin не найден!")
 
     def play(self):
-        if self._play_bin is not None:
-            self._play_bin.set_state(Gst.State.PLAYING)
+        if self._playbin is not None:
+            self._playbin.set_state(Gst.State.PLAYING)
 
     def set_station(self, uri):
-        if self._play_bin is not None:
-            self._play_bin.set_property('uri', uri) 
+        if self._playbin is not None:
+            self._playbin.set_state(Gst.State.NULL)
+            self._playbin.set_property('uri', uri) 
         
     def stop(self):
-        print("STOP")
-        if self._play_bin is not None:
-            self._play_bin.set_state(Gst.State.PAUSED)        
+        if self._playbin is not None:
+            self._playbin.set_state(Gst.State.PAUSED)        
 
 
 class ActionMenu(QtGui.QAction):
@@ -260,7 +253,6 @@ def read_user_settings():
 
     with open(user_settings_file, 'r') as fp:
         data = json.load(fp)
-        print(data)
         return data;
 
 
